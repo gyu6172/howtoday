@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/weatherFragment"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="날씨"/>
+    <item android:id="@+id/calendarFragment"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="일정"/>
+    <item android:id="@+id/memoFragment"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="메모"/>
+    <item android:id="@+id/accountFragment"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="가계부"/>
+
+</menu>
