@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 public class WeatherFragment extends Fragment {
 
+    TextView textView;
+    Button button;
+    int cnt=1;
+
     public WeatherFragment() {
 
     }
@@ -22,6 +26,17 @@ public class WeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_weather,null);
+
+        textView = v.findViewById(R.id.textView);
+        button = v.findViewById(R.id.btn);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textView.setText(""+cnt);
+                cnt++;
+            }
+        });
 
         return v;
     }
