@@ -6,6 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AccountFragment">
 
+<!--    ScrollView먼저 띄울것!!!!-->
+
 
     <TextView
         android:layout_width="match_parent"
