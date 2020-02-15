@@ -26,25 +26,28 @@ public class NameInputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nameinput_layout);
 
-        intent =  new Intent(NameInputActivity.this,MainActivity.class);
-
         okbtn = findViewById(R.id.OKbtn);
         nameInput =  findViewById(R.id.nameInput);
         textInputLayout = findViewById(R.id.textInputLayout);
 
-        okbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                name = nameInput.getText().toString();
-                if(name.equals("")){
-                    textInputLayout.setError("이름을 입력하세요.");
+        intent =  new Intent(NameInputActivity.this,MainActivity.class);
+
+
+            okbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    name = nameInput.getText().toString();
+                    if(name.equals("")){
+                        textInputLayout.setError("이름을 입력하세요.");
+                    }
+                    else{
+                        intent.putExtra("name",name);
+                        startActivity(intent);
+                        Toast.makeText(NameInputActivity.this, "환영합니다.", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else{
-                    intent.putExtra("name",name);
-                    startActivity(intent);
-                    Toast.makeText(NameInputActivity.this, "환영합니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            });
+
+
     }
 }

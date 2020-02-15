@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MemoFragment">
 
-    <!--    ScrollView먼저 띄울것!!!!-->
+    <!--    ScrollView먼저 띄울것, 배경색 @color의 backgroundColor로.-->
 
     <TextView
         android:layout_width="match_parent"
