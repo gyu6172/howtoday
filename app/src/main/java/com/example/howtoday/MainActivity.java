@@ -22,19 +22,33 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     PagerAdater mAdater;
+    SharedPreferences sharedPreferences;
+    int check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        nameTextView = findViewById(R.id.main_name);
-        Intent intent = getIntent();
-        name = intent.getStringExtra("name");
-        nameTextView.setText(name);
-
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
+        nameTextView = findViewById(R.id.main_name);
+
+        sharedPreferences = getSharedPreferences("pref",0);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Intent intent = getIntent();
+        check = intent.getIntExtra("check",0);
+        if(check == 0){
+            name = intent.getStringExtra("name");
+            nameTextView.setText(name);
+            editor.putString("name",name);
+            editor.commit();
+        }
+        else if(check == 1){
+            name = sharedPreferences.getString("name","jackxon");
+            nameTextView.setText(name);
+        }
 
         mAdater = new PagerAdater(getSupportFragmentManager());
 
@@ -72,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         nameTextView.setText(editText.getText().toString());
                         name = editText.getText().toString();
+                        editor.putString("name",name);
+                        editor.commit();
                         Toast.makeText(MainActivity.this, "적용되었습니다.",Toast.LENGTH_SHORT );
                     }
                 });
