@@ -1,6 +1,7 @@
 package com.example.howtoday;
 
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -22,10 +23,14 @@ import java.io.IOException;
 public class WeatherFragment extends Fragment {
 
     Float bodyTemp;
-    int temp, mintemp, maxtemp;
+    int temp, mintemp, maxtemp, dVal,sdVal;
+    String dustValue, superdustValue, dustText, superdustText;
+    String dustColor, superdustColor;
     String url = "https://search.naver.com/search.naver?sm=top_sug.pre&fbm=1&acr=1&acq=%EB%82%A0&qdt=0&ie=utf8&query=%EB%82%A0%EC%94%A8";
-    Element tempElement, bodyTempElement, minTempElement, maxTempElement;
-    TextView temperature,bodyTemperature, minTemperature, maxTemperature, slash;
+    String[] d;
+    String[] sd;
+    Element tempElement, bodyTempElement, minTempElement, maxTempElement, dustValueElement, superdustValueElement;
+    TextView temperature,bodyTemperature, minTemperature, maxTemperature, slash, textD, textSD, dustTextView, superdustTextView;
 
     public WeatherFragment() {
 
@@ -41,6 +46,10 @@ public class WeatherFragment extends Fragment {
         minTemperature = v.findViewById(R.id.minTemperature);
         maxTemperature = v.findViewById(R.id.maxTemperature);
         slash = v.findViewById(R.id.slash);
+        textD = v.findViewById(R.id.textD);
+        textSD = v.findViewById(R.id.textSD);
+        dustTextView = v.findViewById(R.id.Dvalue);
+        superdustTextView = v.findViewById(R.id.SDvalue);
 
 
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
@@ -66,9 +75,12 @@ public class WeatherFragment extends Fragment {
                 bodyTempElement = document.getElementsByClass("num").get(2);
                 minTempElement = document.getElementsByClass("num").get(0);
                 maxTempElement = document.getElementsByClass("num").get(1);
+                dustValueElement = document.getElementsByClass("num").get(4);
+                superdustValueElement = document.getElementsByClass("num").get(5);
 
                 Log.e("asdf","doInBackground : "+tempElement+"and"+bodyTempElement);
                 Log.e("qwer","doInbackground : "+minTempElement+"and"+maxTempElement);
+                Log.e("zxcv","dust"+dustValueElement+"and"+superdustValueElement);
 
 
             } catch (IOException e) {
@@ -100,6 +112,57 @@ public class WeatherFragment extends Fragment {
             if(maxTempElement != null){
                 maxtemp = Integer.parseInt(maxTempElement.text());
                 maxTemperature.setText(maxtemp+"℃");
+            }
+
+            if(dustValueElement != null){
+                textD.setText("미세먼지");
+                dustValue = dustValueElement.text();
+                d = dustValue.split("㎍");
+                dVal = Integer.parseInt(d[0]);
+                if(0<= dVal && dVal<=30){
+                    dustColor = "#0b71fc";      //BLUE
+                    dustText = "좋음";
+                }
+                else if(31<=dVal && dVal<=80){
+                    dustColor = "#58cc00";        //GREEN
+                    dustText = "보통";
+                }
+                else if(81<=dVal && dVal<=150){
+                    dustColor = "#fb931a";       //ORANGE
+                    dustText = "나쁨";
+                }
+                else{
+                    dustColor = "#ff0000";          //RED
+                    dustText = "매우 나쁨";
+                }
+                dustTextView.setTextColor(Color.parseColor(dustColor));
+                dustTextView.setText(" "+dustText+"("+dustValue+")");
+            }
+
+            if(superdustValueElement != null){
+                textSD.setText("초미세먼지");
+                superdustValue = superdustValueElement.text();
+                sd = superdustValue.split("㎍");
+                sdVal = Integer.parseInt(sd[0]);
+                if(0<= sdVal && sdVal<=15){
+                    superdustColor = "#0b71fc";        //BLUE
+                    superdustText = "좋음";
+                }
+                else if(16<=sdVal && sdVal<=35){
+                    superdustColor = "#58cc00";       //GREEN
+                    superdustText = "보통";
+                }
+                else if(36<=sdVal && sdVal<=75){
+                    superdustColor = "#fb931a";      //ORANGE
+                    superdustText = "나쁨";
+                }
+                else{
+                    superdustColor = "#ff0000";      //RED
+                    superdustText = "매우 나쁨";
+                }
+                superdustTextView.setTextColor(Color.parseColor(superdustColor));
+                superdustTextView.setText(" "+superdustText+"("+superdustValue+")");
+
             }
 
         }
