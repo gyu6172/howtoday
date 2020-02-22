@@ -10,28 +10,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-
-import com.example.howtoday.R;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.ConnectException;
 
 public class WeatherFragment extends Fragment {
 
-    TextView textView;
-    Button button;
-    Float temp;
-    int cnt=1;
-    String url = "https://search.naver.com/search.naver?sm=top_hty&fbm=1&ie=utf8&query=%ED%98%84%EC%9E%AC%EB%82%A0%EC%94%A8";
-    Element element;
+    Float bodyTemp;
+    int temp, mintemp, maxtemp;
+    String url = "https://search.naver.com/search.naver?sm=top_sug.pre&fbm=1&acr=1&acq=%EB%82%A0&qdt=0&ie=utf8&query=%EB%82%A0%EC%94%A8";
+    Element tempElement, bodyTempElement, minTempElement, maxTempElement;
+    TextView temperature,bodyTemperature, minTemperature, maxTemperature, slash;
 
     public WeatherFragment() {
 
@@ -42,19 +36,15 @@ public class WeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_weather,null);
+        temperature = v.findViewById(R.id.temperature);
+        bodyTemperature = v.findViewById(R.id.bodyTemperature);
+        minTemperature = v.findViewById(R.id.minTemperature);
+        maxTemperature = v.findViewById(R.id.maxTemperature);
+        slash = v.findViewById(R.id.slash);
 
-        textView = v.findViewById(R.id.textView);
-        button = v.findViewById(R.id.btn);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
-                jsoupAsyncTask.execute();
-
-                textView.setText(""+temp);
-            }
-        });
+        JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
+        jsoupAsyncTask.execute();
 
         return v;
     }
@@ -72,8 +62,13 @@ public class WeatherFragment extends Fragment {
                 Connection.Response execute = Jsoup.connect(url).execute();
                 Document document = Jsoup.parse(execute.body());
 
-                element = document.getElementsByClass("todaytemp").get(0);
-                Log.e("as","doInBackground : " + element.text());
+                tempElement = document.getElementsByClass("todaytemp").get(0);
+                bodyTempElement = document.getElementsByClass("num").get(2);
+                minTempElement = document.getElementsByClass("num").get(0);
+                maxTempElement = document.getElementsByClass("num").get(1);
+
+                Log.e("asdf","doInBackground : "+tempElement+"and"+bodyTempElement);
+                Log.e("qwer","doInbackground : "+minTempElement+"and"+maxTempElement);
 
 
             } catch (IOException e) {
@@ -87,8 +82,24 @@ public class WeatherFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if (element != null){
-                temp = Float.parseFloat(element.text());
+            if(tempElement != null){
+                temp = Integer.parseInt(tempElement.text());
+                temperature.setText(temp+"℃");
+            }
+            if(bodyTempElement != null){
+                bodyTemp = Float.parseFloat(bodyTempElement.text());
+                bodyTemperature.setText("체감온도 "+bodyTemp+"℃");
+            }
+
+            if(minTempElement != null){
+                mintemp = Integer.parseInt(minTempElement.text());
+                minTemperature.setText(mintemp+"℃");
+                slash.setText(" / ");
+            }
+
+            if(maxTempElement != null){
+                maxtemp = Integer.parseInt(maxTempElement.text());
+                maxTemperature.setText(maxtemp+"℃");
             }
 
         }
