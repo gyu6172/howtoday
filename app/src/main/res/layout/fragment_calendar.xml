@@ -22,6 +22,18 @@
             app:layout_constraintDimensionRatio="1:0.75"
             android:id="@+id/calender"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="일정추가"
+            android:id="@+id/scheduleAddBtn"
+            android:backgroundTint="@color/mainColor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calender"/>
+
+
+
 
 
 
