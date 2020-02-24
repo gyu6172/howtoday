@@ -13,7 +13,6 @@ public class SetMemoActivity extends AppCompatActivity {
     Button saveButton;
     TextInputLayout textInputLayout;
     TextInputEditText titleInput;
-    String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
