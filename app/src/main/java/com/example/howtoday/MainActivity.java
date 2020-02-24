@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     PagerAdater mAdater;
-    SharedPreferences sharedPreferences;z
+    SharedPreferences sharedPreferences;
     int check;
 
     @Override
