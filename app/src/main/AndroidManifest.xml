@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SetMemoActivity"></activity>
+        <activity android:name=".ShowMemoActivity"></activity>
+        <activity android:name=".SetMemoActivity" />
         <activity android:name=".NameInputActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
