@@ -2,7 +2,9 @@ package com.example.howtoday;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,6 +17,9 @@ public class ShowMemoActivity extends AppCompatActivity {
     Button deleteButton;
     TextView memoTitleTextView;
     TextView memoContentTextView;
+    Intent intent;
+    String title;
+    String content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,21 @@ public class ShowMemoActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.deleteBtn);
         memoTitleTextView = findViewById(R.id.showMemoTitleTv);
         memoContentTextView = findViewById(R.id.showMemoContentTv);
+
+        intent = getIntent();
+        title = intent.getStringExtra("title");
+        content = intent.getStringExtra("content");
+
+        memoTitleTextView.setText(title);
+        memoContentTextView.setText(content);
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 
 
 

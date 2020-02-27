@@ -4,6 +4,7 @@ package com.example.howtoday;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -12,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,9 +31,10 @@ public class MemoFragment extends Fragment {
     Intent intent;
     ArrayList<Item> dataArray = new ArrayList<>();
     String title;
-    Date today = new Date();
-    SimpleDateFormat sdf;
+    String content;
     String now;
+    ArrayList titleArray = new ArrayList();
+    ArrayList contentArray = new ArrayList();
 
     public MemoFragment() {
         // Required empty public constructor
@@ -48,7 +52,7 @@ public class MemoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_memo,null);
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_memo, null);
         addMemoBtn = v.findViewById(R.id.memoAddBtn);
         recyclerView = v.findViewById(R.id.memoRecycler);
 
@@ -65,20 +69,25 @@ public class MemoFragment extends Fragment {
         addMemoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(intent,1001);
+                startActivityForResult(intent, 1001);
             }
         });
 
-        recyclerView.setOnClickListener(new View.OnClickListener() {
+        recyclerAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                int position;
-
-
+            public void onItemClick(View v, int position) {
+                Intent mintent = new Intent(getContext(),ShowMemoActivity.class);
+                String title = titleArray.get(position).toString();
+                String content = contentArray.get(position).toString();
+                mintent.putExtra("title",title);
+                mintent.putExtra("content",content);
+                startActivityForResult(mintent,2001);
             }
         });
 
         return v;
+
+
     }
 
     @Override
@@ -88,8 +97,14 @@ public class MemoFragment extends Fragment {
             if(resultCode == 200){
                 title = data.getStringExtra("title");
                 now = data.getStringExtra("time");
+                content = data.getStringExtra("content");
                 dataArray.add(addItem(title,now));
+                titleArray.add(title);
+                contentArray.add(content);
             }
+        }
+        if(requestCode == 2001){
+
         }
     }
 }

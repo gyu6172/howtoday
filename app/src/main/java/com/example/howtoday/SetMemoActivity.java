@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,8 +22,10 @@ public class SetMemoActivity extends AppCompatActivity {
     TextInputLayout textInputLayout;
     TextInputEditText titleInput;
     String title;
+    String content;
     Intent intent;
     String now;
+    EditText contentsEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class SetMemoActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         textInputLayout = findViewById(R.id.textInputLayout);
         titleInput = findViewById(R.id.titleInput);
+        contentsEditText = findViewById(R.id.memoContent);
 
         intent = new Intent(SetMemoActivity.this, MemoFragment.class);
 
@@ -42,15 +46,18 @@ public class SetMemoActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/E  HH:mm");
                 now = sdf.format(today);
                 title = titleInput.getText().toString();
+                content = contentsEditText.getText().toString();
                 if(title.length() != 0) {
                     setResult(200, intent.putExtra("title", title));
                     setResult(200, intent.putExtra("time",now));
+                    setResult(200, intent.putExtra("content",content));
                     Toast.makeText(SetMemoActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else{
                     setResult(200, intent.putExtra("title", "제목없음"));
                     setResult(200,intent.putExtra("time",now));
+                    setResult(200, intent.putExtra("content",content));
                     Toast.makeText(SetMemoActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }

@@ -15,7 +15,17 @@ import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
+    public interface OnItemClickListener{
+        void onItemClick(View v, int position);
+    }
+
+    private OnItemClickListener mListener = null;
+
     private ArrayList<Item> mData = null;
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mListener = listener;
+    }
 
 
     public RecyclerAdapter(ArrayList<Item> mData) {
@@ -32,7 +42,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 @Override
                 public void onClick(View view) {
                     int pos = getAdapterPosition();
-                    Log.e("pos","pos"+pos);
+                    if (pos != RecyclerView.NO_POSITION){
+                        Log.e("눌림",""+pos);
+                        if(mListener != null){
+                            mListener.onItemClick(view,pos);
+                        }
+                    }
                 }
             });
 
@@ -48,6 +63,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = inflater.inflate(R.layout.recyclerview_item,parent,false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("눌려짐","눌림");
+            }
+        });
         RecyclerAdapter.ViewHolder vh = new RecyclerAdapter.ViewHolder(view);
 
         return vh;
