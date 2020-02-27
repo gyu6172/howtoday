@@ -48,16 +48,16 @@ public class SetMemoActivity extends AppCompatActivity {
                 title = titleInput.getText().toString();
                 content = contentsEditText.getText().toString();
                 if(title.length() != 0) {
-                    setResult(200, intent.putExtra("title", title));
-                    setResult(200, intent.putExtra("time",now));
-                    setResult(200, intent.putExtra("content",content));
+                    setResult(101, intent.putExtra("title", title));
+                    setResult(101, intent.putExtra("time",now));
+                    setResult(101, intent.putExtra("content",content));
                     Toast.makeText(SetMemoActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else{
-                    setResult(200, intent.putExtra("title", "제목없음"));
-                    setResult(200,intent.putExtra("time",now));
-                    setResult(200, intent.putExtra("content",content));
+                    setResult(101, intent.putExtra("title", "제목없음"));
+                    setResult(101,intent.putExtra("time",now));
+                    setResult(101, intent.putExtra("content",content));
                     Toast.makeText(SetMemoActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }

@@ -35,6 +35,8 @@ public class MemoFragment extends Fragment {
     String now;
     ArrayList titleArray = new ArrayList();
     ArrayList contentArray = new ArrayList();
+    int deletePosition;
+    RecyclerAdapter recyclerAdapter = new RecyclerAdapter(dataArray);
 
     public MemoFragment() {
         // Required empty public constructor
@@ -57,7 +59,6 @@ public class MemoFragment extends Fragment {
         recyclerView = v.findViewById(R.id.memoRecycler);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(dataArray);
         recyclerView.setAdapter(recyclerAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
@@ -79,6 +80,7 @@ public class MemoFragment extends Fragment {
                 Intent mintent = new Intent(getContext(),ShowMemoActivity.class);
                 String title = titleArray.get(position).toString();
                 String content = contentArray.get(position).toString();
+                mintent.putExtra("position",position);
                 mintent.putExtra("title",title);
                 mintent.putExtra("content",content);
                 startActivityForResult(mintent,2001);
@@ -94,7 +96,7 @@ public class MemoFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1001){
-            if(resultCode == 200){
+            if(resultCode == 101){
                 title = data.getStringExtra("title");
                 now = data.getStringExtra("time");
                 content = data.getStringExtra("content");
@@ -104,7 +106,14 @@ public class MemoFragment extends Fragment {
             }
         }
         if(requestCode == 2001){
-
+            if (resultCode == 201) {
+                deletePosition = data.getIntExtra("deletePos", -1);
+                Log.e("삭제", "" + deletePosition);
+                dataArray.remove(deletePosition);
+                titleArray.remove(deletePosition);
+                contentArray.remove(deletePosition);
+                recyclerAdapter.notifyDataSetChanged();
+            }
         }
     }
 }
