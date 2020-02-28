@@ -1,10 +1,15 @@
-package com.example.howtoday;
+package com.example.howtoday.MainActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.example.howtoday.Account.AccountFragment;
+import com.example.howtoday.Calendar.CalendarFragment;
+import com.example.howtoday.Memo.MemoFragment;
+import com.example.howtoday.Weather.WeatherFragment;
 
 import java.util.ArrayList;
 

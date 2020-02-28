@@ -1,4 +1,4 @@
-package com.example.howtoday;
+package com.example.howtoday.Calendar;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.howtoday.R;
 
 import java.util.ArrayList;
 

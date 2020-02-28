@@ -1,9 +1,9 @@
-package com.example.howtoday;
+package com.example.howtoday.Account;
 
-import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,27 +24,14 @@ import java.util.ArrayList;
 public class AccountFragment extends Fragment {
 
     Spinner monthSpinner;
-    TextView remainMoney;
+    TextView remainMoneyTextView;
     Button addButton;
     RecyclerView accountRecyclerView;
     AccountRecyclerAdapter accountRecyclerAdapter;
     ArrayList<AccountItem> data = new ArrayList<>();
-    CustomDialog customDialog;
-    String date, content, inoutcome;
-    int remain=0;
-    int money;
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public ArrayList<AccountItem> getData() {
-        return data;
-    }
-
-    public void setData(ArrayList<AccountItem> data) {
-        this.data = data;
-    }
+    String date, content, moneyString;
+    String[] d;
+    int usemoney, remainMoney;
 
     public AccountFragment() {
 
@@ -59,21 +46,15 @@ public class AccountFragment extends Fragment {
         return accountItem;
     }
 
-    public int getRemain() {
-        return remain;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_account,null);
 
         monthSpinner = v.findViewById(R.id.month_spinner);
-        remainMoney = v.findViewById(R.id.now_money);
         addButton = v.findViewById(R.id.add_btn);
         accountRecyclerView = v.findViewById(R.id.accountRecyclerView);
-
-        remainMoney.setText(""+remain);
+        remainMoneyTextView = v.findViewById(R.id.now_money);
 
 
         data.add(addAccount("날짜","내용","수입/지출","잔액"));
@@ -90,12 +71,44 @@ public class AccountFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                customDialog = new CustomDialog(getContext());
-                customDialog.show();
-                accountRecyclerAdapter.notifyDataSetChanged();
+                Intent intent = new Intent(getContext(), AccountInput.class);
+                startActivityForResult(intent,1001);
             }
         });
 
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1001){
+            if(resultCode == 101){
+                ArrayList<AccountItem> dataArray = new ArrayList<>();
+                dataArray = this.data;
+                date = data.getStringExtra("date");
+                content = data.getStringExtra("content");
+                usemoney = data.getIntExtra("money",0);
+                d = date.split("/");
+                d[1] = ""+(Integer.parseInt(d[1])+1);
+                date = d[0]+"/"+d[1]+"/"+d[2];
+                if(usemoney >= 0){
+                    moneyString = "+"+usemoney;
+                }
+                else{
+                    moneyString = ""+usemoney;
+                }
+                if(dataArray.size() > 1){
+                    remainMoney = Integer.parseInt(dataArray.get(dataArray.size()-1).getRemain());
+                }
+                else{
+                    remainMoney = 0;
+                }
+                remainMoney = remainMoney+usemoney;
+                this.data.add(addAccount(date,content,moneyString,""+remainMoney));
+                remainMoneyTextView.setText(""+remainMoney);
+                accountRecyclerAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }

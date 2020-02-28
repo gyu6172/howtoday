@@ -1,4 +1,4 @@
-package com.example.howtoday;
+package com.example.howtoday.Account;
 
 public class AccountItem {
     String date;

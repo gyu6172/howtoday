@@ -1,10 +1,9 @@
-package com.example.howtoday;
+package com.example.howtoday.Memo;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -13,15 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
+import com.example.howtoday.R;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class MemoFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.example.howtoday;
+package com.example.howtoday.Weather;
 
 
 import android.graphics.Color;
@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.howtoday.R;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;

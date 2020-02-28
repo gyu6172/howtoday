@@ -1,4 +1,4 @@
-package com.example.howtoday;
+package com.example.howtoday.Calendar;
 
 
 import android.app.AlertDialog;
@@ -37,7 +37,6 @@ public class CalendarFragment extends Fragment {
     RecyclerView recyclerView;
     TextView noScheduleTextView;
     ArrayList<ScheduleItem> dataArray = new ArrayList<>();
-    ArrayList<ScheduleItem> tmparray = new ArrayList<>();
     ArrayList<String> scheduleArray = new ArrayList<>();
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -79,6 +78,7 @@ public class CalendarFragment extends Fragment {
         if (nowDate.charAt(5) == '0') {
             d[1] = "" + nowDate.charAt(6);
         }
+        d[1] = ""+(Integer.parseInt(d[1])-1);
         Log.e("d", d[0] + "/" + d[1] + "/" + d[2]);
 
 
@@ -87,8 +87,12 @@ public class CalendarFragment extends Fragment {
         recyclerView.setAdapter(scheduleRecyclerAdapter);
 
         int tmp = sharedPreferences.getInt(d[0] + "/" + d[1] + "/" + d[2], 0);
+        if (tmp == 0){
+            noScheduleTextView.setText("( 일정 없음 )");
+        }
         for (int i = 1; i <= tmp; i++) {
             String sch = sharedPreferences.getString(d[0] + "/" + d[1] + "/" + d[2] + "/" + i, "헿");
+            Log.e("schedule",sch);
             dataArray.add(addSchedule(getResources().getDrawable(R.drawable.black_circle), sch));
         }
         scheduleRecyclerAdapter.notifyDataSetChanged();
@@ -105,7 +109,7 @@ public class CalendarFragment extends Fragment {
                 scheduleRecyclerAdapter.notifyDataSetChanged();
                 count = sharedPreferences.getInt("" + year + "/" + month + "/" + dateOfMonth, 0);
                 if (count == 0) {
-                    noScheduleTextView.setText("일정 없음");
+                    noScheduleTextView.setText("( 일정 없음 )");
                 } else {
                     noScheduleTextView.setText("");
                     for (int i = 1; i <= count; i++) {

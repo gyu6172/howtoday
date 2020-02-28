@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".AccountFragment">
+    tools:context=".Account.AccountFragment">
 
 <!--    ScrollView먼저 띄울것!!!!-->
 

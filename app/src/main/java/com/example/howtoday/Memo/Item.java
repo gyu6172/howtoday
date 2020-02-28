@@ -1,4 +1,4 @@
-package com.example.howtoday;
+package com.example.howtoday.Memo;
 
 public class Item {
     private String topTv;

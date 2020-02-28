@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
-    tools:context=".MemoFragment">
+    tools:context=".Memo.MemoFragment">
 
     <!--    ScrollView먼저 띄울것, 배경색 @color의 backgroundColor로.-->
     <androidx.constraintlayout.widget.ConstraintLayout
