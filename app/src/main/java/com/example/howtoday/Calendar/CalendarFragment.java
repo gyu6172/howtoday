@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
@@ -71,6 +73,8 @@ public class CalendarFragment extends Fragment {
         noScheduleTextView = v.findViewById(R.id.noscheduleTextView);
         sharedPreferences = getActivity().getSharedPreferences("pref", 0);
         editor = sharedPreferences.edit();
+
+        recyclerView.setNestedScrollingEnabled(false);
 
         sdf = new SimpleDateFormat("yyyy/MM/dd");
         nowDate = sdf.format(today);
@@ -139,6 +143,7 @@ public class CalendarFragment extends Fragment {
                         }
                         else{
                             dataArray.add(addSchedule(getResources().getDrawable(R.drawable.black_circle), toaddSchedule));
+                            scheduleRecyclerAdapter.notifyDataSetChanged();
                             noScheduleTextView.setText("");
                             chk++;
                             editor.putInt("" + focusedyear + "/" + focusedmonth + "/" + focuseddate, chk);
@@ -150,6 +155,48 @@ public class CalendarFragment extends Fragment {
                     }
                 });
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        scheduleRecyclerAdapter.setOnItemClickListener(new ScheduleRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, final int position) {
+                String schedule = dataArray.get(position).getSchedule();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("일정 삭제하기");
+                builder.setMessage("\""+schedule+"\""+"일정을 삭제하시겠습니까?");
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        int check;
+                        check = sharedPreferences.getInt("" + focusedyear + "/" + focusedmonth + "/" + focuseddate,0);
+
+                        dataArray.remove(position);
+                        scheduleRecyclerAdapter.notifyDataSetChanged();
+
+                        for(int k=1;k<=check;k++){
+                            String sch = sharedPreferences.getString("" + focusedyear + "/" + focusedmonth + "/" + focuseddate + "/" + k, "헿");
+                            if(k>position+1){
+                                editor.putString("" + focusedyear + "/" + focusedmonth + "/" + focuseddate + "/" + (k-1),sch);
+                                editor.apply();
+                            }
+                        }
+                        Log.e("dele","chk"+check);
+                        check--;
+                        editor.putInt("" + focusedyear + "/" + focusedmonth + "/" + focuseddate,check);
+                        editor.apply();
+                        if(check == 0){
+                            noScheduleTextView.setText("( 일정 없음 )");
+                        }
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
