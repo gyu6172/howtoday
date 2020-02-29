@@ -21,6 +21,16 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
         this.mData = mData;
     }
 
+    public interface OnItemClickListener{
+        void onItemClick(View v, int position);
+    }
+
+    private OnItemClickListener mListener = null;
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mListener = listener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView dateTextView;
@@ -35,6 +45,18 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
             contentTextView = itemView.findViewById(R.id.taskTextView);
             inoutcomeTextView = itemView.findViewById(R.id.incomeoutcomeTextView);
             remainTextView = itemView.findViewById(R.id.remainmoneyTextView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION && pos != 0){
+                        if(mListener != null){
+                            mListener.onItemClick(view, pos);
+                        }
+                    }
+                }
+            });
         }
     }
 

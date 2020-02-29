@@ -194,6 +194,7 @@ public class CalendarFragment extends Fragment {
                         if(check == 0){
                             noScheduleTextView.setText("( 일정 없음 )");
                         }
+                        Toast.makeText(getContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {

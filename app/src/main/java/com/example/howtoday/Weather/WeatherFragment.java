@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -53,7 +54,6 @@ public class WeatherFragment extends Fragment {
         textSD = v.findViewById(R.id.textSD);
         dustTextView = v.findViewById(R.id.Dvalue);
         superdustTextView = v.findViewById(R.id.SDvalue);
-
 
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
         jsoupAsyncTask.execute();

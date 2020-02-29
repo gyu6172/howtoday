@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +29,6 @@ public class AccountInput extends AppCompatActivity {
     String date, content;
     int money;
     Intent intent;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,22 +53,24 @@ public class AccountInput extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), AccountFragment.class);
                 date = datePicker.getYear()+"/"+datePicker.getMonth()+"/"+datePicker.getDayOfMonth();
                 content =  contentEditText.getText().toString();
-                if(radioGroup.getCheckedRadioButtonId() == R.id.outcomeButton){
-                    money = money * -1;
-                }
-                Log.e("account",date+"and"+content+"and"+money);
+                String str = moneyEditText.getText().toString();
                 if(content.length() == 0){
                     contentEditText.setError("내용을 입력하세요.");
                 }
+
                 else if(moneyEditText.getText().toString().length() == 0){
                     moneyEditText.setError("수입/지출 비용을 입력하세요.");
                 }
+
                 else{
                     money = Integer.parseInt(moneyEditText.getText().toString());
-                    setResult(101, intent.putExtra("date",date));
-                    setResult(101, intent.putExtra("content",content));
-                    setResult(101, intent.putExtra("money",money));
-                    finish();
+                    if(radioGroup.getCheckedRadioButtonId() == R.id.outcomeButton){
+                        money = money * -1;
+                    }
+                        setResult(101, intent.putExtra("date",date));
+                        setResult(101, intent.putExtra("content",content));
+                        setResult(101, intent.putExtra("money",money));
+                        finish();
                 }
             }
         });
