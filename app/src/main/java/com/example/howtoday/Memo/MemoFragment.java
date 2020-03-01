@@ -2,6 +2,7 @@ package com.example.howtoday.Memo;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.howtoday.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -30,10 +32,13 @@ public class MemoFragment extends Fragment {
     String title;
     String content;
     String now;
-    ArrayList titleArray = new ArrayList();
-    ArrayList contentArray = new ArrayList();
+    ArrayList<String> titleArray = new ArrayList();
+    ArrayList<String> contentArray = new ArrayList();
     int deletePosition;
     RecyclerAdapter recyclerAdapter = new RecyclerAdapter(dataArray);
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    int count=0;
 
     public MemoFragment() {
         // Required empty public constructor
@@ -47,6 +52,26 @@ public class MemoFragment extends Fragment {
         return item;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        editor.putInt("count",count);
+        editor.apply();
+
+        Gson ggson = new Gson();
+        for(int i=0;i<count;i++){
+            String json = ggson.toJson(dataArray.get(i));
+            String title = titleArray.get(i);
+            String content = contentArray.get(i);
+            editor.putString("titleArray"+i,title);
+            editor.putString("contentArray"+i,content);
+            editor.putString("dataArray"+i,json);
+            Log.e("onstop",json);
+        }
+        editor.apply();
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +82,25 @@ public class MemoFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(recyclerAdapter);
+
+        sharedPreferences = getActivity().getSharedPreferences("pref",0);
+        editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        count = sharedPreferences.getInt("count",0);
+        for(int i=0;i<count;i++){
+            String json =sharedPreferences.getString("dataArray"+i,"");
+            String title = sharedPreferences.getString("titleArray"+i,"");
+            String content = sharedPreferences.getString("contentArray"+i,"");
+            Item item = new Item();
+            item = gson.fromJson(json,Item.class);
+            dataArray.add(item);
+            titleArray.add(title);
+            contentArray.add(content);
+            recyclerAdapter.notifyDataSetChanged();
+            Log.e("oncreate",item.toString());
+        }
+
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),
                 new LinearLayoutManager(getContext()).getOrientation());
@@ -100,6 +144,9 @@ public class MemoFragment extends Fragment {
                 dataArray.add(addItem(title,now));
                 titleArray.add(title);
                 contentArray.add(content);
+                recyclerAdapter.notifyDataSetChanged();
+                count++;
+
             }
         }
         if(requestCode == 2001){
@@ -110,6 +157,7 @@ public class MemoFragment extends Fragment {
                 titleArray.remove(deletePosition);
                 contentArray.remove(deletePosition);
                 recyclerAdapter.notifyDataSetChanged();
+                count--;
             }
         }
     }
