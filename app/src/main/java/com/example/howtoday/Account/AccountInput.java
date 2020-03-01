@@ -53,7 +53,6 @@ public class AccountInput extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), AccountFragment.class);
                 date = datePicker.getYear()+"/"+datePicker.getMonth()+"/"+datePicker.getDayOfMonth();
                 content =  contentEditText.getText().toString();
-                String str = moneyEditText.getText().toString();
                 if(content.length() == 0){
                     contentEditText.setError("내용을 입력하세요.");
                 }

@@ -4,6 +4,8 @@ public class AccountItem {
     String date;
     String content;
     String inoutcome;
+    String remain;
+
 
     public String getRemain() {
         return remain;
@@ -12,8 +14,6 @@ public class AccountItem {
     public void setRemain(String remain) {
         this.remain = remain;
     }
-
-    String remain;
 
     public String getDate() {
         return date;
