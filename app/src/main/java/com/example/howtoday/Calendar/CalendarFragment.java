@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -129,6 +130,7 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 final EditText editText = new EditText(getContext());
+                editText.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("일정 추가하기");
                 builder.setMessage("일정을 입력하세요");

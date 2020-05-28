@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 public class AccountFragment extends Fragment {
 
-    Spinner monthSpinner;
     TextView remainMoneyTextView;
     Button addButton;
     RecyclerView accountRecyclerView;
@@ -81,7 +80,6 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_account, null);
 
-        monthSpinner = v.findViewById(R.id.month_spinner);
         addButton = v.findViewById(R.id.add_btn);
         accountRecyclerView = v.findViewById(R.id.accountRecyclerView);
         remainMoneyTextView = v.findViewById(R.id.now_money);

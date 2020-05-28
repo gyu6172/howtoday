@@ -8,7 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 editText = new EditText(MainActivity.this);
+                editText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("이름 바꾸기");
                 builder.setMessage("이름을 입력하세요.");
