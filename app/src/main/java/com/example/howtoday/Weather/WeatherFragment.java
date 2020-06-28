@@ -21,6 +21,7 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
@@ -30,10 +31,11 @@ public class WeatherFragment extends Fragment {
     int temp, mintemp, maxtemp, dVal,sdVal;
     String dustText, superdustText;
     String dustColor, superdustColor;
-    String url = "https://search.naver.com/search.naver?sm=top_sug.pre&fbm=1&acr=1&acq=%EB%82%A0&qdt=0&ie=utf8&query=%EB%82%A0%EC%94%A8";
-    String dUrl = "https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&query=%EC%A0%84%EA%B5%AD%EB%AF%B8%EC%84%B8%EB%A8%BC%EC%A7%80";
-    String sdUrl = "https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&query=%EC%A0%84%EA%B5%AD%EC%B4%88%EB%AF%B8%EC%84%B8%EB%A8%BC%EC%A7%80";
-    Element tempElement, bodyTempElement, minTempElement, maxTempElement, dustValueElement, superdustValueElement;
+    final String url = "https://search.naver.com/search.naver?sm=top_sug.pre&fbm=1&acr=1&acq=%EB%82%A0&qdt=0&ie=utf8&query=%EB%82%A0%EC%94%A8";
+    final String dUrl = "https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&query=%EC%A0%84%EA%B5%AD%EB%AF%B8%EC%84%B8%EB%A8%BC%EC%A7%80";
+    final String sdUrl = "https://search.naver.com/search.naver?where=nexearch&sm=tab_etc&query=%EC%A0%84%EA%B5%AD%EC%B4%88%EB%AF%B8%EC%84%B8%EB%A8%BC%EC%A7%80";
+    Element bodyTempElement, minTempElement, maxTempElement, dustValueElement, superdustValueElement;
+    Elements tempElement;
     TextView temperature,bodyTemperature, minTemperature, maxTemperature, slash, textD, textSD, dustTextView, superdustTextView;
 
     public WeatherFragment() {
@@ -80,7 +82,7 @@ public class WeatherFragment extends Fragment {
                 Connection.Response sd_execute = Jsoup.connect(sdUrl).execute();
                 Document sd_doc = Jsoup.parse(sd_execute.body());
 
-                tempElement = document.getElementsByClass("todaytemp").get(0);
+                tempElement = document.select(".todaytemp");
                 bodyTempElement = document.getElementsByClass("num").get(2);
                 minTempElement = document.getElementsByClass("num").get(0);
                 maxTempElement = document.getElementsByClass("num").get(1);
@@ -110,10 +112,10 @@ public class WeatherFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            if(tempElement != null){
-                temp = Integer.parseInt(tempElement.text());
-                temperature.setText(temp+"℃");
-            }
+//            if(tempElement != null){
+//                temp = Integer.parseInt(tempElement.text());
+//                temperature.setText(temp+"℃");
+//            }
             if(bodyTempElement != null){
                 bodyTemp = Float.parseFloat(bodyTempElement.text());
                 bodyTemperature.setText("체감온도 "+bodyTemp+"℃");
